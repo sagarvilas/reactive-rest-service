@@ -36,7 +36,6 @@ public class ServiceWebClient {
     public Mono<String> getResultParallel() {
         return Flux.just(getSlowResponse(), getFastResponse())
                 .flatMap(Function.identity())
-                .map(Function.identity())
                 .collect(Collectors.joining("\n"));
     }
 
