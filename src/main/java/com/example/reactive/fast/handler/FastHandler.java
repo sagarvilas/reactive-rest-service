@@ -7,16 +7,13 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 @Component
 public class FastHandler {
 
   public Mono<ServerResponse> hello(ServerRequest request) {
-    try {
-      Thread.sleep(1000L);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
     return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN)
-      .body(BodyInserters.fromValue("I reached early..."));
+      .body(BodyInserters.fromValue("I reached early...")).delayElement(Duration.ofSeconds(1l));
   }
 }
