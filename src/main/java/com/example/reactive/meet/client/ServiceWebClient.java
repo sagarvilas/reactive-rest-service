@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
@@ -28,12 +29,19 @@ public class ServiceWebClient {
     }
 
     private String construct(List<String> x) {
-        return x.stream().collect(Collectors.joining("\n"));
+        return x.stream()
+                .collect(Collectors.joining("\n"));
     }
 
-
     public Mono<String> getResultParallel() {
-        return Mono.zip(getSlowResponse(), getFastResponse()).map(x -> construct(x)).single();
+        return Flux.just(getSlowResponse(), getFastResponse())
+                .flatMap(Function.identity())
+                .map(Function.identity())
+                .collect(Collectors.joining("\n"));
+    }
+
+    private Mono<String> construct(Mono<String> x) {
+        return x.map(y -> y.concat("\n")).single();
     }
 
     private String construct(Tuple2<String, String> x) {
