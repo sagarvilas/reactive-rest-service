@@ -18,12 +18,12 @@ public class SlowRouterTest {
   private WebTestClient webTestClient;
 
   @Test
-  public void testHello() {
+  public void testSlow() {
     webTestClient
-      .get().uri("/hello")
+      .get().uri("/slow")
       .accept(MediaType.TEXT_PLAIN)
       .exchange()
       .expectStatus().isOk()
-      .expectBody(String.class).isEqualTo("Hello, Spring!");
+      .expectBody(String.class).isEqualTo("Sorry I am late...");
   }
 }

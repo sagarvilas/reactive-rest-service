@@ -39,14 +39,6 @@ public class ServiceWebClient {
                 .collect(Collectors.joining("\n"));
     }
 
-    private Mono<String> construct(Mono<String> x) {
-        return x.map(y -> y.concat("\n")).single();
-    }
-
-    private String construct(Tuple2<String, String> x) {
-        return x.getT1().concat("\n").concat(x.getT2());
-    }
-
     private Mono<String> getSlowResponse() {
         log.info("getSlowResponse started at " + System.currentTimeMillis());
         return client.get()
