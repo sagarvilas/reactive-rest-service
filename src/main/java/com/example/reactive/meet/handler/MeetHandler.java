@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class MeetHandler {
 
-    private ServiceWebClient webClient;
+    private final ServiceWebClient webClient;
 
     public MeetHandler(ServiceWebClient serviceWebClient) {
         this.webClient = serviceWebClient;

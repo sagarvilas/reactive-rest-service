@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
 
 import java.util.List;
 import java.util.function.Function;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ServiceWebClient {
 
-    private WebClient client;
+    private final WebClient client;
 
     public ServiceWebClient(WebClient localClient) {
         this.client = localClient;
@@ -28,19 +27,19 @@ public class ServiceWebClient {
         return r2.concatWith(r1).collectList().map(x -> construct(x)).single();
     }
 
+
     private String construct(List<String> x) {
         return x.stream()
                 .collect(Collectors.joining("\n"));
     }
 
     public Mono<String> getResultParallel() {
-        return Flux.just(getSlowResponse(), getFastResponse())
+        return Flux.just(getFastResponse(), getSlowResponse())
                 .flatMap(Function.identity())
                 .collect(Collectors.joining("\n"));
     }
 
     private Mono<String> getSlowResponse() {
-        log.info("getSlowResponse started at " + System.currentTimeMillis());
         return client.get()
                 .uri("/slow")
                 .accept(MediaType.TEXT_PLAIN)
@@ -48,7 +47,6 @@ public class ServiceWebClient {
     }
 
     private Mono<String> getFastResponse() {
-        log.info("getFastResponse started at " + System.currentTimeMillis());
         return client.get()
                 .uri("/fast")
                 .accept(MediaType.TEXT_PLAIN)

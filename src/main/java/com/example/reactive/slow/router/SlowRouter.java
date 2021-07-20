@@ -12,12 +12,12 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class SlowRouter {
 
-  @Bean
-  public RouterFunction<ServerResponse> slowRoute(SlowHandler slowHandler) {
+    @Bean
+    public RouterFunction<ServerResponse> slowRoute(SlowHandler slowHandler) {
 
-    return RouterFunctions
-      .route(RequestPredicates.GET("/slow")
-              .and(RequestPredicates
-                      .accept(MediaType.TEXT_PLAIN)), slowHandler::hello);
-  }
+        return RouterFunctions
+                .route(RequestPredicates.GET("/slow")
+                        .and(RequestPredicates
+                                .accept(MediaType.TEXT_PLAIN)), slowHandler::hello);
+    }
 }

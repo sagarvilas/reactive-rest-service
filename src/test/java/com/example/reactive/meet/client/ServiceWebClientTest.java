@@ -42,6 +42,6 @@ public class ServiceWebClientTest {
                         "Sorry I am late..."))
                 .expectComplete()
                 .verifyThenAssertThat()
-                .tookMoreThan(Duration.ofSeconds(5));
+                .tookMoreThan(Duration.ofSeconds(6));
     }
 }
