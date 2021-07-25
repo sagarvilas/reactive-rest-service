@@ -10,19 +10,26 @@ import reactor.core.publisher.Mono;
 @Component
 public class MeetHandler {
 
-    private final ServiceWebClient webClient;
+  private final ServiceWebClient webClient;
 
-    public MeetHandler(ServiceWebClient serviceWebClient) {
-        this.webClient = serviceWebClient;
-    }
+  public MeetHandler(ServiceWebClient serviceWebClient) {
+    this.webClient = serviceWebClient;
+  }
 
-    public Mono<ServerResponse> sequential(ServerRequest request) {
-        ServerResponse.BodyBuilder resp = ServerResponse.ok();
-        return resp.contentType(MediaType.TEXT_PLAIN).body(webClient.getResultSequential(), String.class);
-    }
+  public Mono<ServerResponse> sequential(ServerRequest request) {
+    ServerResponse.BodyBuilder resp = ServerResponse.ok();
+    return resp.contentType(MediaType.TEXT_PLAIN)
+        .body(webClient.getResultSequential(), String.class);
+  }
 
-    public Mono<ServerResponse> parallel(ServerRequest request) {
-        ServerResponse.BodyBuilder resp = ServerResponse.ok();
-        return resp.contentType(MediaType.TEXT_PLAIN).body(webClient.getResultParallel(), String.class);
-    }
+  public Mono<ServerResponse> parallel(ServerRequest request) {
+    ServerResponse.BodyBuilder resp = ServerResponse.ok();
+    return resp.contentType(MediaType.TEXT_PLAIN).body(webClient.getResultParallel(), String.class);
+  }
+
+  public Mono<ServerResponse> scheduler(ServerRequest request) {
+    ServerResponse.BodyBuilder resp = ServerResponse.ok();
+    return resp.contentType(MediaType.TEXT_PLAIN)
+        .body(webClient.getResultParallelScheduler().onErrorReturn("error"), String.class);
+  }
 }

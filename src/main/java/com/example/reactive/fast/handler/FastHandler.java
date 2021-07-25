@@ -15,11 +15,12 @@ import java.time.Instant;
 @Slf4j
 public class FastHandler {
 
-    public Mono<ServerResponse> hello(ServerRequest request) {
-        return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN)
-                .body(BodyInserters.fromValue("I reached early..."))
-                .delayElement(Duration.ofSeconds(2l))
-                .doOnSubscribe(x -> log.info("Fast doOnSubscribe called at :" + Instant.now()))
-                .doOnNext(x -> log.info("Fast onNext called at :" + Instant.now()));
-    }
+  public Mono<ServerResponse> hello(ServerRequest request) {
+    return ServerResponse.ok()
+        .contentType(MediaType.TEXT_PLAIN)
+        .body(BodyInserters.fromValue("I reached early..."))
+        .delayElement(Duration.ofSeconds(2l))
+        .doOnSubscribe(x -> log.info("Fast doOnSubscribe called at :" + Instant.now()))
+        .doOnNext(x -> log.info("Fast onNext called at :" + Instant.now()));
+  }
 }

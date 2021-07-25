@@ -36,6 +36,16 @@ public class ServiceWebClientTest {
     }
 
     @Test
+    public void parallelSchedulerTest() {
+        StepVerifier.create(client.getResultParallelScheduler())
+                .expectNextMatches(actual -> actual.equals("I reached early...\n" +
+                        "Sorry I am late..."))
+                .expectComplete()
+                .verifyThenAssertThat()
+                .tookLessThan(Duration.ofSeconds(5));
+    }
+
+    @Test
     public void sequentialTest() {
         StepVerifier.create(client.getResultSequential())
                 .expectNextMatches(actual -> actual.equals("I reached early...\n" +
@@ -44,4 +54,6 @@ public class ServiceWebClientTest {
                 .verifyThenAssertThat()
                 .tookMoreThan(Duration.ofSeconds(6));
     }
+
+
 }

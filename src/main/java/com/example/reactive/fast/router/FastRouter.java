@@ -12,12 +12,11 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class FastRouter {
 
-    @Bean
-    public RouterFunction<ServerResponse> fastRoute(FastHandler fastHandler) {
+  @Bean
+  public RouterFunction<ServerResponse> fastRoute(FastHandler fastHandler) {
 
-        return RouterFunctions
-                .route(RequestPredicates.GET("/fast")
-                        .and(RequestPredicates
-                                .accept(MediaType.TEXT_PLAIN)), fastHandler::hello);
-    }
+    return RouterFunctions.route(
+        RequestPredicates.GET("/fast").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+        fastHandler::hello);
+  }
 }
