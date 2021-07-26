@@ -14,16 +14,18 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @AutoConfigureWebTestClient(timeout = "10000")
 public class SlowRouterTest {
 
-  @Autowired
-  private WebTestClient webTestClient;
+  @Autowired private WebTestClient webTestClient;
 
   @Test
   public void testSlow() {
     webTestClient
-      .get().uri("/slow")
-      .accept(MediaType.TEXT_PLAIN)
-      .exchange()
-      .expectStatus().isOk()
-      .expectBody(String.class).isEqualTo("Sorry I am late...");
+        .get()
+        .uri("/slow")
+        .accept(MediaType.TEXT_PLAIN)
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectBody(String.class)
+        .isEqualTo("Sorry I am late...");
   }
 }
